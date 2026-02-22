@@ -123,17 +123,25 @@ streamlit run app.py
 📁 Project Structure
 
 ```
-knowledge/
-├── system_prompt.txt
-├── vision.md
-├── portfolio.md
-├── thinking_principles.md
-├── personality_rules.md
-├── assistant_behavior.md
-├── conversation_rules.md
-├── response_patterns.md
-├── conversation_examples.md
-└── guardrails.md
+PERSONAL-AI-TWIN
+│
+├── knowledge/
+│   ├── assistant_behavior.md
+│   ├── conversation_examples.md
+│   ├── conversation_rules.md
+│   ├── guardrails.md
+│   ├── personality_rules.md
+│   ├── portfolio.md
+│   ├── response_patterns.md
+│   ├── starter_questions.md
+│   ├── system_prompt.txt
+│   ├── thinking_principles.md
+│   └── vision.md
+│
+├── app.py
+├── requirements.txt
+├── README.md
+└── .env (local only)
 ```
 
 ## About the Author
