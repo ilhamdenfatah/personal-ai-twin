@@ -1,19 +1,3 @@
-## 🚧 Deployment Status
-
-This project is fully functional locally.
-
-Live deployment is temporarily disabled due to API billing configuration.
-You can run the assistant locally by adding your own OpenAI API key:
-
-1. Create `.env`
-2. Add OPENAI_API_KEY
-3. Run `streamlit run app.py`
-
-Architecture, prompts, and knowledge system are fully implemented.
-
-
-
-
 # 🤖 Ilham AI Twin — Personal AI Assistant
 
 ## Overview
@@ -136,18 +120,6 @@ streamlit run app.py
 
 ---
 
-## Running Locally
-
-git clone https://github.com/your-username/ilham-ai-assistant.git
-
-cd ilham-ai-assistant
-
-pip install -r requirements.txt
-
-streamlit run app.py
-
----
-
 📁 Project Structure
 
 ```
@@ -169,6 +141,8 @@ knowledge/
 Ilham is a data practitioner transitioning toward Business Data Analytics and Applied Data Science, with a strong interest in decision-oriented analytics and AI-driven systems.
 
 This project reflects an exploration of how analytics, AI, and human reasoning can be combined into practical and understandable tools.
+
+---
 
 ## Future Direction
 
