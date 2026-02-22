@@ -57,15 +57,25 @@ The assistant responds using structured context rather than static summaries.
 The system is built around a **knowledge-driven architecture**, where behavior and responses are guided by layered context:
 
 System Identity
+
 ↓
+
 Thinking Principles
+
 ↓
+
 Personality Rules
+
 ↓
+
 Conversation Behavior
+
 ↓
+
 Project & Vision Knowledge
+
 ↓
+
 LLM Response
 
 
@@ -129,8 +139,11 @@ streamlit run app.py
 ## Running Locally
 
 git clone https://github.com/your-username/ilham-ai-assistant.git
+
 cd ilham-ai-assistant
+
 pip install -r requirements.txt
+
 streamlit run app.py
 
 ---
