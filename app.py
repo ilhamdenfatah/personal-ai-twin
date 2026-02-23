@@ -11,20 +11,26 @@ from dotenv import load_dotenv
 # ==============================
 st.set_page_config(page_title="Ilham AI Twin", page_icon="🤖", layout="centered")
 
-load_dotenv()
+load_dotenv()  # aman untuk lokal; di Streamlit Cloud pakai Secrets juga oke
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
-MODEL_NAME = os.getenv("GEMINI_MODEL", "gemini-1.5-flash")
+MODEL_NAME = os.getenv("GEMINI_MODEL", "gemini-2.0-flash")
 
-# Latency controls (bisa diatur di Streamlit Secrets)
+# Latency controls (atur di Streamlit Secrets)
 MAX_CONTEXT_CHARS = int(os.getenv("MAX_CONTEXT_CHARS", "12000"))  # total retrieval pack
 MAX_CHUNK_CHARS = int(os.getenv("MAX_CHUNK_CHARS", "1800"))       # size per chunk
-TOP_K_CHUNKS = int(os.getenv("TOP_K_CHUNKS", "4"))               # chunks per query
-MAX_OUTPUT_TOKENS = int(os.getenv("MAX_OUTPUT_TOKENS", "600"))   # smaller = faster
+TOP_K_CHUNKS = int(os.getenv("TOP_K_CHUNKS", "4"))                # chunks per query
+MAX_OUTPUT_TOKENS = int(os.getenv("MAX_OUTPUT_TOKENS", "600"))    # smaller = faster
 TEMPERATURE = float(os.getenv("TEMPERATURE", "0.4"))
 
 # ==============================
-# 1) Load system instruction (KEEP SMALL)
+# 1) Session State init (WAJIB DI ATAS)
+# ==============================
+if "messages" not in st.session_state:
+    st.session_state.messages = []
+
+# ==============================
+# 2) Load system instruction (KEEP SMALL)
 # ==============================
 def load_text(path: str) -> str:
     if not os.path.exists(path):
@@ -37,7 +43,7 @@ if not SYSTEM_INSTRUCTION:
     SYSTEM_INSTRUCTION = "You are Ilham AI — a professional digital twin of Ilham Den Fatah."
 
 # ==============================
-# 2) Knowledge Base (On-demand retrieval)
+# 3) Knowledge Base (On-demand retrieval)
 # ==============================
 KB_FILES = [
     "vision.md",
@@ -54,17 +60,15 @@ KB_FILES = [
 
 def normalize(text: str) -> str:
     text = text.lower()
-    text = re.sub(r"[^a-z0-9\u00C0-\u024F\u1E00-\u1EFF\s-]", " ", text)  # keep letters/numbers
+    text = re.sub(r"[^a-z0-9\u00C0-\u024F\u1E00-\u1EFF\s-]", " ", text)
     text = re.sub(r"\s+", " ", text).strip()
     return text
 
 def tokenize(text: str) -> set:
     t = normalize(text)
-    toks = set([w for w in t.split(" ") if len(w) >= 3])
-    return toks
+    return set([w for w in t.split(" ") if len(w) >= 3])
 
 def chunk_text(text: str, chunk_size: int = 1800) -> list[str]:
-    # Simple chunking by paragraphs, then pack into ~chunk_size char groups
     paras = [p.strip() for p in text.split("\n\n") if p.strip()]
     chunks = []
     buff = ""
@@ -80,14 +84,14 @@ def chunk_text(text: str, chunk_size: int = 1800) -> list[str]:
     return chunks
 
 @st.cache_data(show_spinner=False)
-def build_kb_index():
+def build_kb_index(max_chunk_chars: int):
     entries = []
     for fname in KB_FILES:
         path = f"knowledge/{fname}"
         raw = load_text(path)
         if not raw:
             continue
-        chunks = chunk_text(raw, chunk_size=MAX_CHUNK_CHARS)
+        chunks = chunk_text(raw, chunk_size=max_chunk_chars)
         for i, ch in enumerate(chunks):
             entries.append({
                 "file": fname,
@@ -97,7 +101,7 @@ def build_kb_index():
             })
     return entries
 
-KB_INDEX = build_kb_index()
+KB_INDEX = build_kb_index(MAX_CHUNK_CHARS)
 
 def retrieve_context(query: str) -> str:
     q_tokens = tokenize(query)
@@ -116,7 +120,6 @@ def retrieve_context(query: str) -> str:
     scored.sort(key=lambda x: x[0], reverse=True)
     selected = scored[:TOP_K_CHUNKS]
 
-    # Build context pack with file labels
     pack = []
     total = 0
     for _, e in selected:
@@ -129,7 +132,7 @@ def retrieve_context(query: str) -> str:
     return "\n\n".join(pack).strip()
 
 # ==============================
-# 3) Model + Chat Session
+# 4) Model + Chat Session
 # ==============================
 generation_config = genai.types.GenerationConfig(
     temperature=TEMPERATURE,
@@ -145,6 +148,7 @@ model = genai.GenerativeModel(
 if "chat_session" not in st.session_state:
     st.session_state.chat_session = model.start_chat(history=[])
 
+# Auto greeting (sekali saja) -> MASUK KE UI HISTORY, bukan dipush ke Gemini
 if "greeted" not in st.session_state:
     st.session_state.greeted = True
     greeting = (
@@ -155,7 +159,7 @@ if "greeted" not in st.session_state:
     st.session_state.messages.append({"role": "assistant", "content": greeting})
 
 # ==============================
-# 4) UI
+# 5) UI
 # ==============================
 st.title("Ilham AI Twin")
 st.caption("Ask anything about Ilham’s experience, projects, or thinking.")
@@ -164,11 +168,13 @@ with st.sidebar:
     st.markdown("### About Ilham AI Twin")
     st.write("Ilham AI Twin adalah digital professional twin dari Ilham Den Fatah.")
     st.write("Anda bisa bertanya tentang:")
-    st.markdown("- Latar belakang & journey\n- Project & portfolio\n- Cara berpikir / decision mindset\n- Tools & pendekatan kerja")
+    st.markdown(
+        "- Latar belakang & journey\n"
+        "- Project & portfolio\n"
+        "- Cara berpikir / decision mindset\n"
+        "- Tools & pendekatan kerja"
+    )
     st.caption(f"Model: {MODEL_NAME}")
-
-if "messages" not in st.session_state:
-    st.session_state.messages = []
 
 # Render history
 for m in st.session_state.messages:
@@ -182,11 +188,24 @@ def is_timeout_error(err: Exception) -> bool:
     return ("deadline" in s) or ("504" in s) or ("timed out" in s) or ("timeout" in s)
 
 if user_input:
+    # show user msg
     st.session_state.messages.append({"role": "user", "content": user_input})
     with st.chat_message("user"):
         st.markdown(user_input)
 
-    # prompt = (ctx + user_input) ... (punya lo tetap)
+    # Build retrieval context (v2)
+    ctx = retrieve_context(user_input)
+
+    if ctx:
+        prompt = (
+            "Berikut catatan relevan tentang Ilham (gunakan sebagai rujukan utama, jangan mengarang di luar ini):\n\n"
+            f"{ctx}\n\n"
+            f"Pertanyaan user: {user_input}"
+        )
+    else:
+        prompt = user_input
+
+    # Assistant response with retry + fallback
     with st.chat_message("assistant"):
         placeholder = st.empty()
         full_response = ""
@@ -194,28 +213,20 @@ if user_input:
         max_attempts = 3
         for attempt in range(1, max_attempts + 1):
             try:
-                if attempt < max_attempts:
-                    stream = st.session_state.chat_session.send_message(prompt, stream=True)
-                    for chunk in stream:
-                        if hasattr(chunk, "text") and chunk.text:
-                            full_response += chunk.text
-                            placeholder.markdown(full_response + "▌")
-                    placeholder.markdown(full_response if full_response else "(No response text returned.)")
-                    break
-
-                resp = st.session_state.chat_session.send_message(prompt, stream=False)
-                full_response = (getattr(resp, "text", "") or "").strip()
+                stream = st.session_state.chat_session.send_message(prompt, stream=True)
+                for chunk in stream:
+                    if hasattr(chunk, "text") and chunk.text:
+                        full_response += chunk.text
+                        placeholder.markdown(full_response + "▌")
                 placeholder.markdown(full_response if full_response else "(No response text returned.)")
                 break
 
             except Exception as e:
-                s = str(e).lower()
-                is_timeout = ("deadline" in s) or ("504" in s) or ("timeout" in s) or ("timed out" in s)
-                if attempt == max_attempts or not is_timeout:
+                if attempt == max_attempts or (not is_timeout_error(e)):
                     placeholder.markdown(f"⚠️ Gemini error: {e}")
                     full_response = f"⚠️ Gemini error: {e}"
                     break
                 time.sleep((2 ** attempt) + random.random())
 
-        # simpan jawaban ke UI history
+        # save to UI history
         st.session_state.messages.append({"role": "assistant", "content": full_response})
