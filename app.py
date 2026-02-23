@@ -28,7 +28,7 @@ def load_knowledge():
                 knowledge_text += f"\n\n--- FILE: {file} ---\n\n{f.read()}"
     
     # Membatasi context agar tidak melebihi limit token secara efisien
-    max_chars = int(os.getenv("MAX_CONTEXT_CHARS", "15000"))
+    max_chars = int(os.getenv("MAX_CONTEXT_CHARS", "12000"))
     return knowledge_text[:max_chars]
 
 # Memuat context sekali saja
@@ -37,7 +37,7 @@ SYSTEM_CONTEXT = load_knowledge()
 # =====================================
 # 3) Init Gemini Model
 # =====================================
-MODEL_NAME = os.getenv("GEMINI_MODEL", "gemini-1.5-flash") # Disarankan pake 1.5-flash untuk speed
+MODEL_NAME = os.getenv("GEMINI_MODEL", "gemini-1.0-pro") # Disarankan pake 1.5-flash untuk speed
 
 model = genai.GenerativeModel(
     model_name=MODEL_NAME,
