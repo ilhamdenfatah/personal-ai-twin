@@ -24,10 +24,14 @@ def load_knowledge():
         path = f"knowledge/{file}"
         if os.path.exists(path):
             with open(path, "r", encoding="utf-8") as f:
-                knowledge_text += f"\n\n{f.read()}"
+                knowledge_text += f"\n\n--- FILE: {file} ---\n\n{f.read()}"
     return knowledge_text
 
 SYSTEM_CONTEXT = load_knowledge()
+
+MAX_CONTEXT_CHARS = int(os.getenv("MAX_CONTEXT_CHARS", "15000"))
+if len(SYSTEM_CONTEXT) > MAX_CONTEXT_CHARS:
+    SYSTEM_CONTEXT = SYSTEM_CONTEXT[:MAX_CONTEXT_CHARS]
 
 # =====================================
 # 3) Init Gemini Model
