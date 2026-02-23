@@ -147,12 +147,12 @@ if "chat_session" not in st.session_state:
 
 if "greeted" not in st.session_state:
     st.session_state.greeted = True
-    st.session_state.chat_session.history.append(
-        genai.types.ContentDict(
-            role="model",
-            parts=[{"text": "Halo! Saya Ilham AI, digital twin profesional dari Ilham Den Fatah.\n\nAnda bisa tanya apa pun tentang proyek saya, cara berpikir saya dalam analytics/AI, atau perjalanan profesional saya. Mau mulai dari mana?"}]
-        )
+    greeting = (
+        "Halo! Saya Ilham AI, digital twin profesional dari Ilham Den Fatah.\n\n"
+        "Anda bisa tanya apa pun tentang proyek saya, cara berpikir saya dalam analytics/AI, "
+        "atau perjalanan profesional saya. Mau mulai dari mana?"
     )
+    st.session_state.messages.append({"role": "assistant", "content": greeting})
 
 # ==============================
 # 4) UI
@@ -167,11 +167,13 @@ with st.sidebar:
     st.markdown("- Latar belakang & journey\n- Project & portfolio\n- Cara berpikir / decision mindset\n- Tools & pendekatan kerja")
     st.caption(f"Model: {MODEL_NAME}")
 
+if "messages" not in st.session_state:
+    st.session_state.messages = []
+
 # Render history
-for message in st.session_state.chat_session.history:
-    role = "assistant" if message["role"] == "model" else "user"
-    with st.chat_message(role):
-        st.markdown(message["parts"][0]["text"])
+for m in st.session_state.messages:
+    with st.chat_message(m["role"]):
+        st.markdown(m["content"])
 
 user_input = st.chat_input("Ask something...")
 
@@ -180,22 +182,11 @@ def is_timeout_error(err: Exception) -> bool:
     return ("deadline" in s) or ("504" in s) or ("timed out" in s) or ("timeout" in s)
 
 if user_input:
-    # Show user msg
+    st.session_state.messages.append({"role": "user", "content": user_input})
     with st.chat_message("user"):
         st.markdown(user_input)
 
-    # Build retrieval context (v2)
-    ctx = retrieve_context(user_input)
-    if ctx:
-        prompt = (
-            "Berikut catatan relevan tentang Ilham (gunakan sebagai rujukan utama, jangan mengarang di luar ini):\n\n"
-            f"{ctx}\n\n"
-            f"Pertanyaan user: {user_input}"
-        )
-    else:
-        prompt = user_input
-
-    # Assistant response with retry + fallback
+    # prompt = (ctx + user_input) ... (punya lo tetap)
     with st.chat_message("assistant"):
         placeholder = st.empty()
         full_response = ""
@@ -203,7 +194,6 @@ if user_input:
         max_attempts = 3
         for attempt in range(1, max_attempts + 1):
             try:
-                # attempt 1-2: streaming
                 if attempt < max_attempts:
                     stream = st.session_state.chat_session.send_message(prompt, stream=True)
                     for chunk in stream:
@@ -213,17 +203,19 @@ if user_input:
                     placeholder.markdown(full_response if full_response else "(No response text returned.)")
                     break
 
-                # last attempt: non-streaming fallback (lebih stabil)
                 resp = st.session_state.chat_session.send_message(prompt, stream=False)
                 full_response = (getattr(resp, "text", "") or "").strip()
                 placeholder.markdown(full_response if full_response else "(No response text returned.)")
                 break
 
             except Exception as e:
-                if attempt == max_attempts or not is_timeout_error(e):
+                s = str(e).lower()
+                is_timeout = ("deadline" in s) or ("504" in s) or ("timeout" in s) or ("timed out" in s)
+                if attempt == max_attempts or not is_timeout:
                     placeholder.markdown(f"⚠️ Gemini error: {e}")
+                    full_response = f"⚠️ Gemini error: {e}"
                     break
+                time.sleep((2 ** attempt) + random.random())
 
-                wait = (2 ** attempt) + random.random()
-                placeholder.markdown(f"⏳ Gemini sedang padat. Retry {attempt}/{max_attempts-1}...")
-                time.sleep(wait)
+        # simpan jawaban ke UI history
+        st.session_state.messages.append({"role": "assistant", "content": full_response})
