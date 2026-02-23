@@ -152,9 +152,9 @@ if "chat_session" not in st.session_state:
 if "greeted" not in st.session_state:
     st.session_state.greeted = True
     greeting = (
-        "Halo! Saya Ilham AI, digital twin profesional dari Ilham Den Fatah.\n\n"
-        "Anda bisa tanya apa pun tentang proyek saya, cara berpikir saya dalam analytics/AI, "
-        "atau perjalanan profesional saya. Mau mulai dari mana?"
+        "Hello! I'm Ilham AI, the professional digital twin of Ilham Den Fatah.\n\n"
+        "You can ask me anything about my projects, analytical thinking, AI approach, "
+        "or professional journey. Where would you like to start?"
     )
     st.session_state.messages.append({"role": "assistant", "content": greeting})
 
@@ -166,13 +166,13 @@ st.caption("Ask anything about Ilham’s experience, projects, or thinking.")
 
 with st.sidebar:
     st.markdown("### About Ilham AI Twin")
-    st.write("Ilham AI Twin adalah digital professional twin dari Ilham Den Fatah.")
-    st.write("Anda bisa bertanya tentang:")
+    st.write("Ilham AI Twin is the professional digital twin of Ilham Den Fatah.")
+    st.write("You can explore:")
     st.markdown(
-        "- Latar belakang & journey\n"
-        "- Project & portfolio\n"
-        "- Cara berpikir / decision mindset\n"
-        "- Tools & pendekatan kerja"
+        "- Background & career journey\n"
+        "- Projects & portfolio\n"
+        "- Analytical and decision mindset\n"
+        "- Tools & working approach"
     )
     st.caption(f"Model: {MODEL_NAME}")
 
