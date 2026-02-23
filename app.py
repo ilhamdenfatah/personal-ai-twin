@@ -10,8 +10,9 @@ load_dotenv()
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
 # =====================================
-# 2) Load knowledge base
+# 2) Load knowledge base (Optimized with Cache)
 # =====================================
+@st.cache_data # Menghindari re-load file setiap user klik tombol, hemat resource!
 def load_knowledge():
     knowledge_text = ""
     ordered_files = [
@@ -25,18 +26,18 @@ def load_knowledge():
         if os.path.exists(path):
             with open(path, "r", encoding="utf-8") as f:
                 knowledge_text += f"\n\n--- FILE: {file} ---\n\n{f.read()}"
-    return knowledge_text
+    
+    # Membatasi context agar tidak melebihi limit token secara efisien
+    max_chars = int(os.getenv("MAX_CONTEXT_CHARS", "15000"))
+    return knowledge_text[:max_chars]
 
+# Memuat context sekali saja
 SYSTEM_CONTEXT = load_knowledge()
-
-MAX_CONTEXT_CHARS = int(os.getenv("MAX_CONTEXT_CHARS", "15000"))
-if len(SYSTEM_CONTEXT) > MAX_CONTEXT_CHARS:
-    SYSTEM_CONTEXT = SYSTEM_CONTEXT[:MAX_CONTEXT_CHARS]
 
 # =====================================
 # 3) Init Gemini Model
 # =====================================
-MODEL_NAME = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+MODEL_NAME = os.getenv("GEMINI_MODEL", "gemini-1.5-flash") # Disarankan pake 1.5-flash untuk speed
 
 model = genai.GenerativeModel(
     model_name=MODEL_NAME,
@@ -44,7 +45,7 @@ model = genai.GenerativeModel(
 )
 
 # =====================================
-# UPGRADE #3 — Sidebar Identity Card
+# Sidebar Identity Card
 # =====================================
 with st.sidebar:
     st.header("About Ilham AI Twin")
@@ -54,9 +55,11 @@ with st.sidebar:
         "- Latar belakang & journey\n"
         "- Project & portfolio\n"
         "- Cara berpikir / decision mindset\n"
-        "- Tools & pendekatan kerja\n"
     )
     st.caption(f"Model: {MODEL_NAME}")
+    if st.button("Clear Chat"): # Tambahan fitur reset
+        st.session_state.chat_session = model.start_chat(history=[])
+        st.rerun()
 
 # =====================================
 # Streamlit UI
@@ -70,7 +73,7 @@ st.caption("Ask anything about Ilham’s experience, projects, or thinking.")
 if "chat_session" not in st.session_state:
     st.session_state.chat_session = model.start_chat(history=[])
 
-# UPGRADE #1 — Auto Greeting (UI only)
+# Auto Greeting
 if "greeted" not in st.session_state:
     st.session_state.greeting_text = (
         "Halo! Saya Ilham AI, digital twin profesional dari Ilham Den Fatah.\n\n"
@@ -80,45 +83,38 @@ if "greeted" not in st.session_state:
     st.session_state.greeted = True
 
 # =====================================
-# Render chat history
+# Render chat history (Optimized)
 # =====================================
-# Tampilkan greeting hanya di UI (tidak masuk history Gemini)
-if "greeting_text" in st.session_state and len(st.session_state.chat_session.history) == 0:
+if len(st.session_state.chat_session.history) == 0:
     with st.chat_message("assistant"):
         st.markdown(st.session_state.greeting_text)
 
 for message in st.session_state.chat_session.history:
     role = "assistant" if message.role == "model" else "user"
     with st.chat_message(role):
-        # Robust: kadang parts bisa >1
-        text = ""
-        try:
-            text = "".join([p.text for p in message.parts if hasattr(p, "text") and p.text])
-        except Exception:
-            text = str(message)
-        st.markdown(text)
+        st.markdown(message.parts[0].text)
 
 # =====================================
-# Input
+# Input & Streaming Logic (THE FIX)
 # =====================================
 user_input = st.chat_input("Ask something...")
 
 if user_input:
-    # Show user message
+    # 1. Tampilkan pesan user
     with st.chat_message("user"):
         st.markdown(user_input)
 
-    # UPGRADE #2 — Streaming / typing effect (rapi & stabil)
+    # 2. Tampilkan respon bot dengan Streaming yang lebih tangguh
     with st.chat_message("assistant"):
-        placeholder = st.empty()
-        full_response = ""
+        def response_generator():
+            try:
+                # Tambahkan timeout parameter jika SDK mendukung, atau biarkan streaming menjaga koneksi
+                stream = st.session_state.chat_session.send_message(user_input, stream=True)
+                for chunk in stream:
+                    if chunk.text:
+                        yield chunk.text
+            except Exception as e:
+                yield f"⚠️ Waduh, ada gangguan koneksi ke 'otak' Gemini saya. Bisa coba lagi? (Error: {str(e)})"
 
-        try:
-            stream = st.session_state.chat_session.send_message(user_input, stream=True)
-            for chunk in stream:
-                if hasattr(chunk, "text") and chunk.text:
-                    full_response += chunk.text
-                    placeholder.markdown(full_response + "▌")
-            placeholder.markdown(full_response)
-        except Exception as e:
-            placeholder.markdown(f"⚠️ Gemini error: {e}")
+        # Menggunakan st.write_stream untuk UX yang lebih halus dan menjaga heartbeat koneksi
+        full_response = st.write_stream(response_generator())
