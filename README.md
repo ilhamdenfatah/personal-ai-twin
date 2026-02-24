@@ -18,8 +18,6 @@ This project demonstrates how AI can be used not only for automation, but as an 
 
 ## 🎯 Project Purpose
 
-## 🎯 Project Purpose
-
 This project started from a simple question:
 
 > How can professional thinking be explored through conversation instead of static portfolios?
@@ -117,7 +115,7 @@ Knowledge files are dynamically loaded and assembled into runtime context.
 
 The application is publicly deployed via **Streamlit Cloud**:
 
-👉 **Live Demo:** https://YOUR-STREAMLIT-URL.streamlit.app
+👉 **Live Demo:** https://ilham-ai-twin.streamlit.app/
 
 Users can directly interact with the AI Twin and explore projects or analytical thinking through conversation.
 
