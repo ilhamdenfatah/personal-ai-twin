@@ -1,51 +1,58 @@
-# 🤖 Ilham AI Twin — Personal AI Assistant
+# 🤖 Ilham AI Twin — Applied AI Digital Twin
 
+🚀 **Live Application:**  
+👉 https://ilham-ai-twin.streamlit.app/
+
+---
 ## Overview
 
-**Ilham AI Twin** is a personal AI assistant designed to represent a professional identity, knowledge system, and thinking approach through conversational interaction.
+**Ilham AI Twin** is an applied AI project that explores how Large Language Models can represent professional knowledge, reasoning, and decision-making through conversational interaction.
 
-Instead of functioning as a generic chatbot, this project explores how Large Language Models can be structured to act as a **digital professional twin** — allowing users to understand a person’s experience, projects, and perspectives through natural dialogue.
+Rather than functioning as a generic chatbot, this system is designed as a **digital professional twin** — allowing users to explore experience, projects, and analytical thinking through dialogue instead of static portfolios.
 
-The assistant answers questions about Ilham’s background, projects, and professional reasoning by grounding responses in curated knowledge files rather than generating generic answers.
+The assistant answers questions about Ilham’s background, projects, and professional reasoning by grounding responses in structured knowledge files, enabling consistent and context-aware interaction.
 
-This project demonstrates how AI can be applied beyond automation — as a medium for communication, explanation, and decision-oriented interaction.
+This project demonstrates how AI can be used not only for automation, but as an interface for communication, explanation, and decision-oriented interaction.
 
 ---
 
 ## 🎯 Project Purpose
 
-This project was not created as a typical chatbot experiment.
+## 🎯 Project Purpose
 
-It started from a simple question:
+This project started from a simple question:
 
-> How can analytical experience and professional thinking be explored through conversation instead of static portfolios?
+> How can professional thinking be explored through conversation instead of static portfolios?
 
-While many technical portfolios showcase models, dashboards, or notebooks, they rarely demonstrate how knowledge, reasoning, and communication come together in real interaction. This project explores that missing layer.
+Traditional technical portfolios present dashboards, notebooks, or reports — but rarely demonstrate *how someone thinks*.
 
-Ilham AI Twin is designed as a **conversational digital representation** — allowing recruiters, collaborators, or peers to understand experience, projects, and decision-making style through dialogue rather than documents.
+Ilham AI Twin was built to bridge that gap.
 
-Instead of focusing solely on model performance, this project emphasizes:
+It allows recruiters, collaborators, and peers to understand:
 
-- structuring knowledge into usable context,
-- designing consistent AI behavior,
-- translating professional experience into conversational interaction,
-- and treating AI as a product interface rather than a standalone model.
+- professional experience,
+- analytical reasoning,
+- project decisions,
+- and working philosophy
 
-In other words, the goal is not just to build an AI response system, but to explore how AI systems can communicate structured expertise in a human-centered way.
+through natural conversation.
+
+The focus is not model complexity, but **designing AI as a communication system**.
 
 ---
 
 ## 💡 What This Project Demonstrates
 
-Although intentionally simple in implementation, this project reflects several practical aspects of applied AI development:
+This project highlights several practical aspects of applied AI development:
 
-- Designing system behavior through layered prompts and rules
-- Managing knowledge as modular context instead of hardcoded responses
-- Building conversational flows aligned with real-world use cases
-- Thinking about AI systems from both engineering and product perspectives
-- Translating technical and professional identity into an interactive system
+- Knowledge engineering through structured context layers
+- Prompt orchestration and behavioral consistency
+- Conversational system design
+- AI guardrails and response alignment
+- Product-oriented AI thinking
+- Translating professional identity into an interactive interface
 
-The project serves as a learning exploration into how Large Language Models can move beyond experimentation and toward usable, human-facing applications.
+The goal is to move beyond experimentation toward **usable, human-facing AI applications**.
 
 ---
 
@@ -84,14 +91,16 @@ Rather than relying solely on prompts, the assistant integrates multiple knowled
 
 ### Frontend
 - Streamlit conversational interface
+- Real-time streaming responses
 
 ### AI Layer
-- OpenAI GPT model
-- Context-driven system prompt
-- Persistent conversational memory
+- Google Gemini LLM
+- Context-driven system instruction
+- Conversational session memory
+- Retry & timeout handling
 
 ### Knowledge System
-Structured markdown-based knowledge files:
+Structured markdown knowledge base:
 
 - Vision & professional identity
 - Portfolio explanations
@@ -100,28 +109,21 @@ Structured markdown-based knowledge files:
 - Conversation examples
 - Guardrails & response patterns
 
-All knowledge files are dynamically loaded and combined into a unified system context at runtime.
+Knowledge files are dynamically loaded and assembled into runtime context.
 
 ---
 
-## 🚧 Deployment Status
+## 🌐 Live Deployment
 
-This project is fully functional locally.
+The application is publicly deployed via **Streamlit Cloud**:
 
-Live deployment is temporarily disabled due to API billing configuration.  
-You can run the assistant locally by adding your own OpenAI API key:
+👉 **Live Demo:** https://YOUR-STREAMLIT-URL.streamlit.app
 
-1. Create `.env`
-2. Add `OPENAI_API_KEY`
-3. Run:
-
-```bash
-streamlit run app.py
-```
+Users can directly interact with the AI Twin and explore projects or analytical thinking through conversation.
 
 ---
 
-📁 Project Structure
+## 📁 Project Structure
 
 ```
 PERSONAL-AI-TWIN
@@ -147,13 +149,19 @@ PERSONAL-AI-TWIN
 
 ---
 
-## 📝 A Note on Scope
+## 📝 Design Philosophy
 
-This repository is intentionally lightweight.
+This repository intentionally prioritizes clarity of system thinking over infrastructure complexity.
 
-The focus is not on complex infrastructure or large-scale deployment, but on **clarity of design thinking** — understanding how AI behavior, knowledge structure, and interaction design work together as a coherent system.
+The focus is understanding how:
 
-Future iterations may expand toward retrieval systems, evaluation layers, or deployment scaling, but the current version prioritizes conceptual clarity and explainability.
+knowledge structure,
+
+AI behavior design,
+
+and interaction experience
+
+combine into a coherent applied AI system.
 
 ---
 
@@ -161,14 +169,15 @@ Future iterations may expand toward retrieval systems, evaluation layers, or dep
 
 Ilham is a data practitioner transitioning toward Business Data Analytics and Applied Data Science, with a strong interest in decision-oriented analytics and AI-driven systems.
 
-This project reflects an exploration of how analytics, AI, and human reasoning can be combined into practical and understandable tools.
+This project represents an exploration of how analytics, AI, and human reasoning can be combined into practical and understandable tools.
 
 ---
 
-## 🔧 Future Direction
+## 🔮 Future Directions
 
-Potential future improvements include:
-- Live deployment environment
-- Retrieval-based knowledge expansion
-- Memory persistence
-- Multi-agent interaction experiments
+Potential future developments:
+- Retrieval-based semantic search
+- Persistent long-term memory
+- Evaluation & response benchmarking
+- Multi-agent experimentation
+- Scaling deployment architecture
