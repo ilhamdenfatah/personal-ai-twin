@@ -1,207 +1,257 @@
 # Ilham — Project Portfolio
 
-Welcome 👋  
-This portfolio represents my journey transitioning into a **Business Data Analyst with Data Science and Applied AI capabilities**, focusing on building systems that support **real-world decision making**, not just technical experimentation.
+I build AI-powered systems that close the last mile — where data 
+insights become automated actions delivered directly to 
+decision-makers.
 
-Rather than treating projects as isolated analyses, I design solutions that connect:
+My work combines three layers:
+- **Data & Analytics** — the foundation: pipelines, modeling, 
+  statistical analysis
+- **AI & LLM Integration** — the intelligence: LLM agent chains, 
+  RAG systems, prompt engineering
+- **Workflow Automation** — the delivery: n8n orchestration, 
+  multi-channel automated output (Slack, Email, WhatsApp)
 
-- data → interpretation → decision → business value
-
-This page highlights both my overall project landscape and several **signature projects** that best represent how I approach data problems.
+Most analysts stop at dashboards. I build the full loop.
 
 ---
 
 # 🧭 Portfolio Overview
 
-My work sits at the intersection of:
+My projects sit at the intersection of:
+- Applied AI & LLM Systems
+- Workflow Automation & Orchestration
+- Data Analytics & Decision Support
+- End-to-End Pipeline Engineering
 
-- Business Analytics
-- Decision Support Systems
-- Applied Data Science
-- Explainable AI & Intelligent Assistants
-
-Core themes across my projects:
-
-- Decision-first analytics (not model-first)
-- Explainable and auditable logic
-- Business-aware system design
-- Practical usability for stakeholders
-
----
-
-# 🌎 Project Landscape (All Projects)
-
-Across my repositories, I have worked on projects covering:
-
-### Retail & Decision Analytics
-- Retail Operational Prioritization & Risk Typology
-- Demand Forecasting → Decision Support System
-- Retail Data Pipeline & Analytics Workflow
-
-### Recommendation & Applied Intelligence
-- Context-Aware Coffee Recommendation System
-- AI Portfolio & Interview Assistant (AI Twin)
-
-### Data Science & Modeling
-- Customer Lifetime Value (CLV) Modeling
-- Walmart Weekly Sales Forecasting
-- NLP Sentiment Analysis (E-commerce Reviews)
-
-### Data Engineering Foundations
-- Retail Sales Data Pipeline
-- Artifact-driven analytical workflows
-
-📌 Full repositories available at:
-- GitHub: [YOUR GITHUB LINK]
-- Notion Portfolio: [YOUR NOTION LINK]
+Core design principles across all projects:
+- **Last-mile thinking** — insights must reach decision-makers 
+  automatically, not sit in a dashboard waiting to be found
+- **Business-first, tools-second** — I start with the problem, 
+  then choose the stack
+- **Full-loop ownership** — I design, build, and deploy; from 
+  raw data to stakeholder delivery
+- **Explainability** — AI systems must be understandable and 
+  aligned with business logic
 
 ---
 
-# ⭐ Signature Project 1  
-## Retail Operational Prioritization & Risk Typology System
-
-### Problem Background
-Retail teams operate under limited planning bandwidth while facing volatile demand signals. Traditional KPIs often fail to answer a critical operational question:
-
-> Where should attention be focused first — and why?
-
-### Objective
-Build a **decision-support framework** that transforms transactional retail data into operational prioritization signals.
-
-### Dataset
-Instacart Market Basket Analysis Dataset (Kaggle).
-
-### Approach
-The project introduces a **decision-first analytical framework**:
-
-1. Metric Operationalization  
-   - demand volatility  
-   - reorder behavior  
-   - concentration risk
-
-2. Decision Framing  
-   - Impact vs Risk axes
-   - Priority bucket assignment
-
-3. Diagnostic Layer  
-   - risk archetypes
-   - planning interpretation signals
-
-All phases produce frozen artifacts to ensure reproducibility and auditability.
-
-### Tools & Tech
-Python, Pandas, Analytical Modeling, Power BI
-
-### Key Insight
-Analytics becomes more valuable when reframed as **prioritization under uncertainty**, not prediction accuracy.
-
-### Business Value
-- Enables structured operational focus
-- Improves planning clarity
-- Supports executive-level decision reasoning
-
-### My Role
-- Framework design
-- Metric engineering
-- Decision logic formulation
-- Executive narrative translation
+# ⭐ AI & Automation Projects
 
 ---
 
-# ⭐ Signature Project 2  
-## Context-Aware Coffee Recommendation System
+## 1. Revenue Intelligence Agent
+**Multi-Agent AI System for Automated Business Intelligence**
+`Python` `Groq (LLaMA 3.3 70B)` `n8n` `FastAPI` `Streamlit`
 
-### Problem Background
-Traditional recommendation systems optimize similarity but ignore real-world user context, producing technically correct but practically unsuitable recommendations.
+### The Problem
+E-commerce leadership asks "what happened and what should we do?" 
+after a revenue drop — and it takes analysts 2-3 days to compile 
+an answer. By then, the window for action has closed.
 
-### Objective
-Design a recommendation system that balances **relevance with contextual suitability**.
+### What I Built
+A fully automated 4-agent AI pipeline that runs every morning 
+and delivers structured intelligence reports before the team 
+starts their day — without anyone lifting a finger.
 
-### Approach
+**The agent chain:**
+1. **Signal Detector** — scans revenue, AOV, order volume, and 
+   geographic data; identifies top 3-5 anomalies ranked by 
+   severity and confidence score
+2. **Root Cause Analyzer** — cross-references dimensional 
+   breakdowns to diagnose whether a drop is demand-driven, 
+   logistics-driven, or seasonal
+3. **Action Recommender** — translates diagnosis into specific, 
+   executable actions with owner, urgency level, and expected 
+   impact
+4. **Report Generator** — formats everything into a 2-line 
+   Slack summary, a structured email brief, and a dashboard 
+   headline
 
-Two-stage architecture:
+**Delivery pipeline:**
+n8n (cron trigger) → FastAPI → Python pipeline → 
+Slack + Email + Streamlit dashboard
 
-**1. Retrieval Layer**
-- TF-IDF + cosine similarity for candidate generation.
+### Why It Matters
+This is the last-mile automation problem solved end-to-end. 
+The system doesn't just detect anomalies — it tells you what 
+caused them, what to do about them, and delivers that 
+intelligence to your phone before your morning coffee.
 
-**2. Guardrail Ranking Layer**
-- Rule-based contextual scoring:
-  - caffeine sensitivity
-  - brew method
-  - time of consumption
-  - stomach tolerance
+### Key Design Decision
+Four specialized agents instead of one — because specialization 
+produces better outputs. Each agent receives only the context 
+relevant to its task.
 
-Rules act as business guardrails rather than replacing model relevance.
-
-### Tools & Tech
-Python, NLP (TF-IDF), Streamlit, Rule-Based Scoring
-
-### Key Insight
-Good recommendations require **judgment**, not only similarity.
-
-### Business Value
-- Explainable recommendations
-- Safer user experience
-- Flexible rule evolution without retraining models
-
-### My Role
-- Decision logic design
-- Modeling workflow
-- Evaluation strategy
-- System deployment prototype
-
----
-
-# ⭐ Signature Project 3  
-## Demand Forecasting → Decision Support System
-
-### Problem Background
-Forecasting models often stop at prediction outputs, leaving stakeholders unsure how to act on results.
-
-### Objective
-Transform forecasting outputs into actionable planning signals.
-
-### Approach
-- Feature engineering & regression modeling
-- Forecast interpretation layer
-- Inventory and planning decision framing
-- Scenario-oriented analysis
-
-### Tools & Tech
-Python, Time-Series Analysis, Regression Modeling
-
-### Key Insight
-Forecasts become valuable only when translated into decisions.
-
-### Business Value
-- Supports inventory planning
-- Reduces ambiguity in forecast interpretation
-- Bridges analytics and operations
-
-### My Role
-- End-to-end modeling
-- Decision interpretation design
-- Business framing
+🔗 GitHub: github.com/ilhamdenfatah/revenue-intelligence-agent
 
 ---
 
-# 🔎 Explore More
+## 2. AI-Powered Retail Inventory Decision Engine
+**Decision-Oriented Inventory Intelligence with LLM Interface**
+`Python` `Streamlit` `Groq (LLaMA 3.3 70B)` `n8n` `Tableau`
 
-For deeper exploration:
+### The Problem
+Retail operations teams manage hundreds of store-product 
+combinations daily. Without a clear prioritization system, 
+attention goes to the loudest problem — not the most 
+critical one.
 
-📂 GitHub Repositories  
-[YOUR GITHUB LINK]
+### What I Built
+An end-to-end AI system that scores every store-product 
+combination across five inventory health metrics, assigns 
+priority levels (CRITICAL / HIGH / MEDIUM / LOW), and surfaces 
+results through three delivery layers:
 
-🧠 Full Portfolio & Case Narratives  
-[YOUR NOTION LINK]
+1. **AI Dashboard** — natural language Q&A over inventory data 
+   powered by Groq + Streamlit; ask "which stores are at 
+   critical risk today?" and get an instant structured answer
+2. **Executive Dashboard** — KPI strip, stockout exposure 
+   chart, demand heatmap (Tableau Public)
+3. **Automated Alerts** — daily email digest of CRITICAL items 
+   triggered at 07:00 via n8n + Gmail
+
+**Scoring logic:**
+- Reorder urgency (45%) + Demand pressure (30%) + 
+  Coverage risk (15%) + Stockout history (10%)
+- Quantile-based thresholds: top 10% → CRITICAL
+
+### Why It Matters
+This project demonstrates the full loop: raw data → scoring 
+pipeline → LLM intelligence layer → automated stakeholder 
+delivery. It's not a dashboard — it's a decision system.
+
+🔗 GitHub: github.com/ilhamdenfatah/retail-inventory-ai  
+🔗 Live Demo: retail-inventory-ai.streamlit.app
 
 ---
 
-# 🤝 How to Use This Portfolio
+## 3. AI Meeting Summarization & Action Item Extraction
+**Automated Meeting Intelligence Pipeline**
+`Python` `Gemini AI` `n8n` `Webhook Automation`
 
-If you are a recruiter or collaborator, you can:
+### The Problem
+After every meeting, someone manually writes up notes, 
+extracts action items, and sends them to the team. This 
+takes time, gets missed, and creates inconsistency.
 
-- explore repositories directly,
-- review decision logic behind each system,
-- or interact with my AI assistant to learn more about my work and thinking process.
+### What I Built
+An automated meeting processing pipeline that eliminates 
+manual note-taking entirely:
+- Meeting input triggers an n8n webhook
+- Gemini AI processes the transcript — summarizes discussion 
+  and extracts structured action items
+- Output is automatically delivered to the relevant team 
+  channel
 
+### Current Stage & Potential
+This project is intentionally minimal — it demonstrates the 
+core pattern: **event-driven LLM automation via n8n**. The 
+same architecture can be extended significantly:
+- Multi-speaker attribution and sentiment analysis
+- CRM integration (auto-create tasks from action items)
+- Slack/WhatsApp/email delivery routing based on urgency
+- Recurring meeting pattern detection across sessions
+
+The simplicity is the point — it proves the automation 
+pattern works, and the extension possibilities are 
+substantial.
+
+🔗 GitHub: github.com/ilhamdenfatah/meeting-ai-automation
+
+---
+
+## 4. Personal AI Twin
+**Professional Digital Twin — Conversational Portfolio Interface**
+`Python` `Gemini AI` `LangChain` `ChromaDB` `Streamlit`
+
+### The Problem
+Traditional portfolios are static — they show what someone 
+built, but rarely demonstrate how they think. Recruiters 
+skim resumes; they don't experience reasoning.
+
+### What I Built
+A conversational AI system that lets recruiters and 
+collaborators explore professional experience, project 
+decisions, and working philosophy through natural dialogue 
+— instead of reading a PDF.
+
+**Architecture:**
+- Knowledge base of structured professional context 
+  (projects, vision, thinking principles, behavioral rules)
+- RAG pipeline: documents chunked, embedded via Google 
+  Generative AI Embeddings, stored in ChromaDB vector store
+- Semantic retrieval: user queries trigger similarity search 
+  → relevant chunks retrieved → Gemini generates grounded 
+  response
+- Conversational session memory for contextual follow-ups
+
+### Why It Matters
+This project demonstrates AI not as automation, but as a 
+**communication interface** — a different but equally 
+important application pattern. It also shows knowledge 
+engineering: how to structure context so an LLM behaves 
+consistently and honestly.
+
+🔗 GitHub: github.com/ilhamdenfatah/personal-ai-twin  
+🔗 Live Demo: ilham-ai-twin.streamlit.app
+
+---
+
+# 📊 Data & Analytics Projects
+
+These projects form the analytical foundation underneath 
+the AI systems above. Strong AI automation is only possible 
+with strong data fundamentals.
+
+---
+
+**Retail Demand Risk Prioritization & Decision Support**
+`Python` `Pandas` `Statistical Modeling`
+Decision-oriented retail analytics — translating fragmented 
+operational signals into interpretable risk scores and 
+structured planning frameworks under demand uncertainty.
+
+---
+
+**Customer Lifetime Value (CLV) Modeling**
+`Python` `BG/NBD` `Gamma-Gamma` `RFM`
+End-to-end CLV pipeline on UCI Online Retail II dataset. 
+BG/NBD + Gamma-Gamma modeling with RFM features and 
+actionable customer segmentation for retention strategy.
+
+---
+
+**Retail Sales Data Pipeline**
+`Python` `Elasticsearch` `ETL`
+End-to-end batch data pipeline: ingestion, cleaning, data 
+quality validation, and indexing into Elasticsearch for 
+search and analytics.
+
+---
+
+**Retail Demand Forecasting → Decision System**
+`Python` `Time Series` `Regression`
+Forecasting evolved into decision support — inventory 
+replenishment signals, safety stock calculation, service 
+level analysis, and scenario simulation.
+
+---
+
+**NLP Sentiment Analysis — E-commerce Reviews**
+`Python` `TF-IDF` `Neural Networks`
+Sentiment classification on Amazon Fine Food Reviews using 
+NLP techniques and neural network models.
+
+---
+
+# 🤝 How to Engage
+
+If you're a recruiter or collaborator:
+- Ask me about any project in detail — I'll walk you through 
+  the problem, the design decisions, and the business impact
+- Ask about my working philosophy or technical approach
+- Ask what I'd build for your specific use case
+
+The best way to understand how I think is to have a 
+conversation.

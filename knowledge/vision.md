@@ -1,46 +1,73 @@
 # Ilham — Vision & Professional Identity
 
 ## 🧭 Core Story
-I am a data practitioner transitioning into a Business Data Analyst role with Data Science capabilities.
+I am an AI Automation Builder & Decision Systems Engineer with a 
+foundation in operational leadership and data analytics.
 
-My journey into the data field began through professional experience in real operational and business environments, where I frequently encountered decisions driven by intuition rather than structured analysis.
+My journey began in real business environments — managing multi-unit 
+operations, making decisions under uncertainty, and frequently 
+encountering the gap between raw data and the people who need to act 
+on it. That gap became my obsession.
 
-Over time, I realized that data is not merely about numbers — it is a tool that helps people make more rational, fair, and impactful decisions. This realization motivated me to seriously pursue data analytics and data science as a long-term career path.
+Over time, I realized the real problem wasn't data quality or 
+dashboard design — it was the last mile: getting the right insight 
+to the right person, automatically, at the right time. That 
+realization is what drives everything I build today.
 
 ---
 
 ## 💡 What Drives Me
-What motivates me most when working with data:
-- Transforming data into insights and systems that support real decision-making.
-- Bridging the gap between technical analysis, business needs, and practical AI adoption.
-- Building analytics and AI solutions that are not only accurate, but also understandable, trustworthy, and usable by stakeholders.
+- Building the full loop: data → AI intelligence layer → automated 
+  delivery → stakeholder action.
+- Closing the last mile — where insights become automated signals 
+  delivered to decision-makers via Slack, WhatsApp, or Telegram 
+  in real time.
+- Building systems that don't require someone to open a dashboard 
+  — the intelligence comes to you.
+- Making AI practical, explainable, and directly tied to business 
+  outcomes.
 
 ---
 
 ## ⚙️ How I Work
-My typical approach to learning and problem-solving:
-- I follow a problem-first, not tools-first, mindset.
-- I believe effective analytics and AI systems must be explainable and aligned with business logic.
-- I work comfortably in iterative cycles: building solutions, evaluating outcomes, and continuously improving.
-- I prioritize business impact and decision support while exploring how AI can enhance analytical effectiveness.
+- Problem-first, not tools-first. I start with the business 
+  question, then choose the right stack.
+- I think in systems: data pipelines, LLM agent chains, automation 
+  workflows, and delivery layers as interconnected components.
+- I work in iterative cycles: ship a working version, evaluate 
+  real outcomes, improve continuously.
+- I believe AI systems must be explainable and aligned with 
+  business logic — not just technically impressive.
 
 ---
 
 ## 🎯 Career Direction (2–3 Years)
-In the next 2–3 years, I aim to grow into:
-- A Business Data Analyst or Applied Data Scientist focused on decision-oriented analytics and intelligent systems.
-- A data professional capable of integrating analytics, business understanding, and AI-driven applications into a unified workflow.
-- A practitioner who builds data and AI solutions that help organizations prioritize decisions under uncertainty and resource constraints.
+- Grow into a senior AI Automation Engineer or Decision Systems 
+  Architect — someone who designs the full intelligence stack for 
+  organizations.
+- Build AI-native operating layers for businesses: automated 
+  reporting, LLM-powered workflows, multi-channel intelligent 
+  delivery systems.
+- Long-term: transition into AI research, with a focus on 
+  practical AI applications for emerging markets, education, 
+  and smallholder communities in Indonesia.
 
 ---
 
 ## 🌍 Impact I Want to Create
-Through data and technology, I aspire to:
-- Help organizations make more effective, transparent, and evidence-based decisions.
-- Enable businesses and communities to benefit from data without requiring high technical complexity.
-- Contribute, in the long term, to data-driven solutions that create sustainable social and economic impact.
+- Help organizations move from static reports to live, automated 
+  intelligence — so decisions happen faster and with better 
+  information.
+- Make AI automation accessible to businesses that don't have 
+  large technical teams.
+- In the long term, contribute AI-driven solutions for character-
+  based education and smallholder farmer empowerment in Indonesia.
 
 ---
 
 ## 🧩 Personal Note
-Beyond technical work, I am known as a reflective individual with strong curiosity and a deep appreciation for learning through exploration. I see professional growth as a long-term journey, where both successes and failures are essential parts of becoming a better version of myself.
+Beyond the technical work, I'm a reflective builder — someone who 
+thinks deeply about why a system should exist before thinking about 
+how to build it. I see professional growth as a long-term journey 
+where every project, every failure, and every iteration makes the 
+next build better.

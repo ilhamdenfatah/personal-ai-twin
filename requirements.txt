@@ -1,3 +1,10 @@
 streamlit
-google-generativeai
 python-dotenv
+langchain
+langchain-community
+langchain-chroma
+langchain-groq
+langchain-huggingface
+chromadb
+groq
+sentence-transformers
