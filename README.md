@@ -1,181 +1,184 @@
-# 🤖 Ilham AI Twin — Applied AI Digital Twin
+# 🤖 Ilham AI Twin — RAG-Powered Professional Digital Twin
 
 🚀 **Live Application:**  
 👉 https://ilham-ai-twin.streamlit.app/
 
 ---
+
 ## Overview
 
-**Ilham AI Twin** is an applied AI project that explores how Large Language Models can represent professional knowledge, reasoning, and decision-making through conversational interaction.
+**Ilham AI Twin** is a RAG-powered conversational AI system that represents Ilham Den Fatah's professional identity, projects, and thinking through natural dialogue.
 
-Rather than functioning as a generic chatbot, this system is designed as a **digital professional twin** — allowing users to explore experience, projects, and analytical thinking through dialogue instead of static portfolios.
+Rather than a static portfolio or generic chatbot, this system is designed as a **digital professional twin** — grounding every response in a structured knowledge base via semantic retrieval, ensuring answers are accurate, consistent, and contextually aware.
 
-The assistant answers questions about Ilham’s background, projects, and professional reasoning by grounding responses in structured knowledge files, enabling consistent and context-aware interaction.
-
-This project demonstrates how AI can be used not only for automation, but as an interface for communication, explanation, and decision-oriented interaction.
+Recruiters, hiring managers, and collaborators can explore Ilham's background, projects, technical decisions, and working philosophy through conversation — not by reading a PDF.
 
 ---
 
-## 🎯 Project Purpose
+## 🧠 How It Works — RAG Architecture
 
-This project started from a simple question:
+This system is built on a **Retrieval-Augmented Generation (RAG)** pipeline, which means the LLM never answers from generic training knowledge alone. Every response is grounded in retrieved context from Ilham's actual knowledge base.
 
-> How can professional thinking be explored through conversation instead of static portfolios?
-
-Traditional technical portfolios present dashboards, notebooks, or reports — but rarely demonstrate *how someone thinks*.
-
-Ilham AI Twin was built to bridge that gap.
-
-It allows recruiters, collaborators, and peers to understand:
-
-- professional experience,
-- analytical reasoning,
-- project decisions,
-- and working philosophy
-
-through natural conversation.
-
-The focus is not model complexity, but **designing AI as a communication system**.
+```
+INDEXING (runs once on first deployment)
+─────────────────────────────────────────
+knowledge/*.md files
+↓
+LangChain RecursiveCharacterTextSplitter
+(chunks: 500 chars, overlap: 50)
+↓
+HuggingFace Embeddings
+(sentence-transformers/all-MiniLM-L6-v2)
+↓
+ChromaDB Vector Store
+(persistent local storage)
+RETRIEVAL + GENERATION (every user query)
+──────────────────────────────────────────
+User Query
+↓
+HuggingFace Embeddings
+(embed query → vector)
+↓
+ChromaDB Similarity Search
+(top-4 semantically relevant chunks)
+↓
+Groq / LLaMA 3.3 70B
+(generate grounded response)
+↓
+Streamlit UI
+(streaming response)
+```
 
 ---
 
-## 💡 What This Project Demonstrates
+**Why RAG instead of static context injection?**
 
-This project highlights several practical aspects of applied AI development:
-
-- Knowledge engineering through structured context layers
-- Prompt orchestration and behavioral consistency
-- Conversational system design
-- AI guardrails and response alignment
-- Product-oriented AI thinking
-- Translating professional identity into an interactive interface
-
-The goal is to move beyond experimentation toward **usable, human-facing AI applications**.
+The previous version of this system loaded all knowledge files 
+into the context window on every request — blunt, expensive, and 
+unable to scale. The RAG architecture retrieves only the most 
+semantically relevant chunks per query, reducing noise and 
+improving response quality.
 
 ---
 
-## 🧠 Core Concept
+## ⚙️ Technical Stack
 
-The system is built around a **knowledge-driven architecture**, where behavior and responses are guided by layered context:
-
-System Identity
-
-↓
-
-Thinking Principles
-
-↓
-
-Personality Rules
-
-↓
-
-Conversation Behavior
-
-↓
-
-Project & Vision Knowledge
-
-↓
-
-LLM Response
-
-
-Rather than relying solely on prompts, the assistant integrates multiple knowledge layers to maintain consistency, reasoning style, and professional tone.
+| Layer | Technology | Role |
+|-------|-----------|------|
+| Frontend | Streamlit | Conversational UI, streaming |
+| Orchestration | LangChain | RAG pipeline, retrieval chain |
+| Embedding | HuggingFace (all-MiniLM-L6-v2) | Semantic vector embedding |
+| Vector Store | ChromaDB | Persistent similarity search |
+| LLM | Groq (LLaMA 3.3 70B) | Response generation |
+| Knowledge Base | Structured Markdown | Professional context |
 
 ---
 
-## ⚙️ Technical Architecture
+## 🗂️ Knowledge Base Structure
 
-### Frontend
-- Streamlit conversational interface
-- Real-time streaming responses
+The system's behavior is governed by 11 structured knowledge files:
 
-### AI Layer
-- Google Gemini LLM
-- Context-driven system instruction
-- Conversational session memory
-- Retry & timeout handling
+```
+knowledge/
+├── system_prompt.txt         ← Core identity & behavioral rules
+├── vision.md                 ← Professional identity & motivation
+├── portfolio.md              ← Project descriptions & decisions
+├── thinking_principles.md    ← How Ilham approaches problems
+├── assistant_behavior.md     ← Runtime conversation conduct
+├── personality_rules.md      ← Tone & communication style
+├── guardrails.md             ← Boundaries & truthfulness rules
+├── conversation_rules.md     ← Response structure & flow
+├── response_patterns.md      ← Adaptive user type handling
+├── conversation_examples.md  ← Behavioral reference examples
+└── starter_questions.md      ← Suggested entry points
+```
 
-### Knowledge System
-Structured markdown knowledge base:
-
-- Vision & professional identity
-- Portfolio explanations
-- Thinking principles
-- Behavioral rules
-- Conversation examples
-- Guardrails & response patterns
-
-Knowledge files are dynamically loaded and assembled into runtime context.
-
----
-
-## 🌐 Live Deployment
-
-The application is publicly deployed via **Streamlit Cloud**:
-
-👉 **Live Demo:** https://ilham-ai-twin.streamlit.app/
-
-Users can directly interact with the AI Twin and explore projects or analytical thinking through conversation.
+Each file is chunked, embedded, and stored in ChromaDB at startup. 
+When a user asks a question, only the most relevant chunks are 
+retrieved — keeping responses focused and grounded.
 
 ---
 
 ## 📁 Project Structure
 
 ```
-PERSONAL-AI-TWIN
-│
-├── knowledge/
-│   ├── assistant_behavior.md
-│   ├── conversation_examples.md
-│   ├── conversation_rules.md
-│   ├── guardrails.md
-│   ├── personality_rules.md
-│   ├── portfolio.md
-│   ├── response_patterns.md
-│   ├── starter_questions.md
-│   ├── system_prompt.txt
-│   ├── thinking_principles.md
-│   └── vision.md
-│
-├── app.py
-├── requirements.txt
-├── README.md
-└── .env (local only)
+personal-ai-twin/
+├── knowledge/          ← Knowledge base (11 structured .md files)
+├── app.py              ← Main Streamlit app + RAG pipeline
+├── ingest.py           ← Standalone ingestion script (local use)
+├── requirements.txt    ← Python dependencies
+├── .gitignore          ← Excludes vectorstore/, .env
+└── README.md
+```
+
+**Note:** The `vectorstore/` directory is excluded from Git. 
+On first deployment, `app.py` automatically builds the vector 
+store from the knowledge files via `run_ingest_if_needed()`.
+
+---
+
+## 🚀 Run Locally
+
+**1. Clone and install**
+```bash
+git clone https://github.com/ilhamdenfatah/personal-ai-twin.git
+cd personal-ai-twin
+pip install -r requirements.txt
+```
+
+**2. Set up environment**
+```bash
+cp .env.example .env
+# Add your GROQ_API_KEY to .env
+```
+
+**3. Build the vector store**
+```bash
+python ingest.py
+```
+
+**4. Run the app**
+```bash
+streamlit run app.py
 ```
 
 ---
 
-## 📝 Design Philosophy
+## 💡 What This Project Demonstrates
 
-This repository intentionally prioritizes clarity of system thinking over infrastructure complexity.
-
-The focus is understanding how:
-
-knowledge structure,
-
-AI behavior design,
-
-and interaction experience
-
-combine into a coherent applied AI system.
+- **RAG pipeline design** — end-to-end: document loading, 
+  chunking, embedding, vector storage, semantic retrieval
+- **LangChain orchestration** — connecting embeddings, 
+  vector store, and LLM into a coherent pipeline
+- **Knowledge engineering** — structuring professional context 
+  into retrievable, consistent knowledge layers
+- **AI behavioral design** — system prompts, guardrails, 
+  personality rules, and response patterns working together
+- **Production deployment** — auto-ingest on cold start, 
+  Streamlit Cloud compatible, zero manual setup required
 
 ---
 
 ## 🧑🏼‍💼 About the Author
 
-Ilham is a data practitioner transitioning toward Business Data Analytics and Applied Data Science, with a strong interest in decision-oriented analytics and AI-driven systems.
+Ilham Den Fatah is an AI Automation Builder & Decision Systems 
+Engineer who builds end-to-end systems connecting data pipelines, 
+LLM APIs, and workflow automation tools to deliver live business 
+intelligence to stakeholders.
 
-This project represents an exploration of how analytics, AI, and human reasoning can be combined into practical and understandable tools.
+This project demonstrates AI not just as automation, but as a 
+**communication interface** — a different but equally important 
+application pattern.
+
+🔗 GitHub: github.com/ilhamdenfatah  
+🔗 LinkedIn: linkedin.com/in/ilham-den-fatah
 
 ---
 
-## 🔮 Future Directions
+## 🔮 Roadmap
 
-Potential future developments:
-- Retrieval-based semantic search
-- Persistent long-term memory
-- Evaluation & response benchmarking
-- Multi-agent experimentation
-- Scaling deployment architecture
+- [ ] Conversation memory across sessions
+- [ ] MMR retrieval for more diverse chunk selection
+- [ ] Source attribution display in UI
+- [ ] Response quality evaluation framework
+- [ ] Multi-agent extension for deeper project Q&A
