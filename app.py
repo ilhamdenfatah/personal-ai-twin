@@ -37,7 +37,7 @@ def run_ingest_if_needed():
         st.info("⏳ Building knowledge base for first time... please wait.")
         
         from langchain_community.document_loaders import DirectoryLoader, TextLoader
-        from langchain.text_splitter import RecursiveCharacterTextSplitter
+        from langchain_text_splitters import RecursiveCharacterTextSplitter
         import shutil
 
         # Load
